@@ -8,8 +8,8 @@ export default function Main() {
   });
 
   function handleChange(event) {
-    const { value } = event.currentTarget;
-    setMeme((prev)=>({...prev,topText: value}))
+    const { value,name } = event.currentTarget;
+    setMeme((prev) => ({ ...prev, [name]: value }));
     /**
      * Challenge: update the topText value in the meme state
      * object every time the topText input box is changed
@@ -28,12 +28,19 @@ export default function Main() {
             placeholder="One does not simply"
             name="topText"
             onChange={handleChange}
+            value={meme.topText}
           />
         </label>
 
         <label>
           Bottom Text
-          <input type="text" placeholder="Walk into Mordor" name="bottomText" />
+          <input
+            type="text"
+            placeholder="Walk into Mordor"
+            name="bottomText"
+            onChange={handleChange}
+            value={meme.bottomTextText}
+          />
         </label>
         <button>Get a new meme image 🖼</button>
       </div>
