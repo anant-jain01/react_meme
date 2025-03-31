@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Main() {
   const [meme, setMeme] = useState({
@@ -6,56 +6,36 @@ export default function Main() {
     bottomText: "Walk into Mordor",
     imageUrl: "http://i.imgflip.com/1bij.jpg",
   });
-  const [allMemes, setAllMemes] = useState([]);
-
-  useEffect(() => {
-    fetch("https://api.imgflip.com/get_memes")
-      .then((res) => res.json())
-      .then((data) => setAllMemes(data.data.memes));
-  }, []);
-
-  function getMemeImage() {
-    const randomNumber = Math.floor(Math.random() * allMemes.length);
-    const newMemeUrl = allMemes[randomNumber].url;
-    setMeme((prevMeme) => ({
-      ...prevMeme,
-      imageUrl: newMemeUrl,
-    }));
-  }
 
   function handleChange(event) {
-    const { value, name } = event.currentTarget;
-    setMeme((prevMeme) => ({
-      ...prevMeme,
-      [name]: value,
-    }));
+    const { value } = event.currentTarget;
+    setMeme((prev)=>({...prev,topText: value}))
+    /**
+     * Challenge: update the topText value in the meme state
+     * object every time the topText input box is changed
+     *
+     * Note: don't worry about bottomText at this point.
+     */
   }
 
   return (
     <main>
       <div className="form">
         <label>
-          Top Text
+          topText
           <input
             type="text"
             placeholder="One does not simply"
             name="topText"
             onChange={handleChange}
-            value={meme.topText}
           />
         </label>
 
         <label>
           Bottom Text
-          <input
-            type="text"
-            placeholder="Walk into Mordor"
-            name="bottomText"
-            onChange={handleChange}
-            value={meme.bottomText}
-          />
+          <input type="text" placeholder="Walk into Mordor" name="bottomText" />
         </label>
-        <button onClick={getMemeImage}>Get a new meme image 🖼</button>
+        <button>Get a new meme image 🖼</button>
       </div>
       <div className="meme">
         <img src={meme.imageUrl} />
